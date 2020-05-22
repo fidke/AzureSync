@@ -40,6 +40,11 @@ namespace AzureSync
             this.logger.LogInformation($"Started watching directory {options.LocalPath}. Files will be uploaded to {options.RemotePath}");
         }
 
+        ~DirectoryWatcher()
+        {
+            watcher.Dispose();
+        }
+
         private void OnChanged(object source, FileSystemEventArgs e)
         {
             if(logger.IsEnabled(LogLevel.Debug))
