@@ -74,7 +74,7 @@ namespace AzureSync
 
                 if(logger.IsEnabled(LogLevel.Debug))
                 {
-                    logger.LogInformation($"Uploaded {e.FullPath} to {options.RemotePath}");
+                    logger.LogDebug($"Uploaded {e.FullPath} to {options.RemotePath}");
                 }
             }
             catch (Exception ex)
