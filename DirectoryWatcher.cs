@@ -72,8 +72,11 @@ namespace AzureSync
 
         private async void Upload(FileSystemEventArgs e)
         {
-            await Task.Delay(options.UploadDelay);
-
+            if(options.UploadDelay > 0)
+            {
+                await Task.Delay(options.UploadDelay);
+            }
+            
             await cloudStorageService.UploadAsync(e.FullPath, $"{options.RemotePath}/{e.Name}");
         }
 
