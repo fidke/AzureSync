@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,11 +36,14 @@ namespace AzureSync
                 | NotifyFilters.DirectoryName;
             watcher.Changed += OnChanged;
 
-            if(!string.IsNullOrEmpty(options.Filter))
+            if(options.Filters != null)
             {
-                watcher.Filter = options.Filter;
+                foreach (var filter in options.Filters)
+                {
+                    watcher.Filters.Add(filter);
+                }
             }
-            
+
             watcher.EnableRaisingEvents = true;
 
             this.logger.LogInformation($"Started watching directory {options.LocalPath}. Files will be uploaded to {options.RemotePath}");

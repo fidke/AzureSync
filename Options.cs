@@ -16,6 +16,6 @@ namespace AzureSync
         public string LocalPath { get; set; }
         public string RemotePath { get; set; }
         public int UploadDelay { get; set; }
-        public string Filter { get; set; }
+        public IEnumerable<string> Filters { get; set; }
     }
 }
