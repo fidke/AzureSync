@@ -17,8 +17,8 @@ Edit `c:/path/to/AzureSync/appsettings.json` and update the following:
   - `Directories`: Mappings of local directories to virtual directories under the blob container
     - `LocalPath`: Full path to the local directory that should be monitored for new files. eg `d:/cameras/video/front001`
     - `RemotePath`: Virtual path under `ContainerName` in Azure blob storage
-    - `Filters` (optional): File name pattern filters for `LocalPath`. See [FileSystemWatcher.Filters](https://docs.microsoft.com/en-us/dotnet/api/system.io.filesystemwatcher.filters?view=netcore-3.1) and [FileSystemWatcher.Filter](https://docs.microsoft.com/en-us/dotnet/api/system.io.filesystemwatcher.filter?view=netcore-3.1). Leave this unset to upload any new file created in the local directory.
-    - `UploadDelay` (optional): Time to wait in ms before uploading the new file to Azure blob storage. Leave this unset to upload immediately after the new file has been created.
+    - `Filters` (optional): File name pattern filters for `LocalPath`. See [FileSystemWatcher.Filters](https://docs.microsoft.com/en-us/dotnet/api/system.io.filesystemwatcher.filters?view=netcore-3.1) and [FileSystemWatcher.Filter](https://docs.microsoft.com/en-us/dotnet/api/system.io.filesystemwatcher.filter?view=netcore-3.1). Leave this unset to upload all new files created in `LocalPath`.
+    - `UploadDelay` (optional): Time to wait in ms before uploading the new file to Azure blob storage. Leave this unset to upload the new file immediately after it has been created.
 
 Sample configuration:
 ```
