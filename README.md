@@ -8,11 +8,12 @@ sc create "AzureSync" binPath="c:/path/to/AzureSync/AzureSync.exe"
 ```
 
 ## Configuration
-Edit `c:/path/to/AzureSync/appsettings.json` and change the following:
+Edit `c:/path/to/AzureSync/appsettings.json` and update the following:
   - `ConnectionString`: Azure blob storage connection string. Get this from the [Azure Portal](https://portal.azure.com)
   - `ContainerName`: Azure blob storage container name
   - `Directories`: Mappings of local directories to virtual directories under the blob container
-
+    - `LocalPath`:
+    - 
 
 Sample configuration:
 ```
