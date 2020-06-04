@@ -36,11 +36,6 @@ namespace AzureSync
             {
                 await Task.Delay(100, stoppingToken);
             }
-
-            foreach(var watcher in watchers)
-            {
-                watcher.Dispose();
-            }
         }
     }
 }
