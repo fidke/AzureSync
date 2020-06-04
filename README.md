@@ -1,5 +1,5 @@
 ﻿# AzureSync
-Simple windows service that watches configured directories and uploads new files to [Azure blob storage](https://azure.microsoft.com/en-us/services/storage/blobs/).
+Simple windows service that watches configured directories and uploads new files to [Azure blob storage](https://azure.microsoft.com/en-us/services/storage/blobs/). Meant to be used for [backing up ispy surveillance camera footage to the cloud](http://ispy-azure.fidke.com).
 
 ## Installation
 #### Create the windows service
