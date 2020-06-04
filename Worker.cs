@@ -5,7 +5,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Azure.Storage.Blobs;
 using Microsoft.Extensions.Options;
 
 namespace AzureSync
@@ -15,22 +14,22 @@ namespace AzureSync
         private readonly ILogger<Worker> logger;
         private readonly AzureSyncOptions options;
         private readonly ICollection<DirectoryWatcher> watchers;
+        private readonly ICloudStorageService cloudStorageService;
 
-        public Worker(ILogger<Worker> logger, IOptions<AzureSyncOptions> options)
+        public Worker(ILogger<Worker> logger, IOptions<AzureSyncOptions> options, ICloudStorageService cloudStorageService)
         {
             this.logger = logger;
             this.options = options.Value;
+            this.cloudStorageService = cloudStorageService;
+
             watchers = new List<DirectoryWatcher>();
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var blobServiceClient = new BlobServiceClient(options.ConnectionString);
-            var containerClient = blobServiceClient.GetBlobContainerClient(options.ContainerName);
-
             foreach (var directoryOption in options.Directories)
             {
-                watchers.Add(new DirectoryWatcher(directoryOption, containerClient, logger));
+                watchers.Add(new DirectoryWatcher(directoryOption, cloudStorageService, logger));
             }
 
             while(!stoppingToken.IsCancellationRequested)

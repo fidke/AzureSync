@@ -21,6 +21,7 @@ namespace AzureSync
                 .ConfigureLogging(options => options.AddFilter<EventLogLoggerProvider>(level => level >= LogLevel.Information))
                 .ConfigureServices((hostContext, services) =>
                 {
+                    services.AddSingleton<ICloudStorageService, AzureCloudStorageService>();
                     services.AddHostedService<Worker>()
                         .Configure<EventLogSettings>(config => 
                         {

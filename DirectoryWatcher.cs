@@ -2,9 +2,8 @@
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using Azure.Storage.Blobs;
 using System.Security.Permissions;
+using Microsoft.Extensions.Logging;
 
 namespace AzureSync
 {
@@ -13,14 +12,15 @@ namespace AzureSync
         private readonly ILogger logger;
         private readonly FileSystemWatcher watcher;
         private readonly DirectoryOptions options;
-        private readonly BlobContainerClient containerClient;
+        private readonly ICloudStorageService cloudStorageService;
 
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        public DirectoryWatcher(DirectoryOptions options, BlobContainerClient containerClient, ILogger logger)
+        public DirectoryWatcher(DirectoryOptions options, ICloudStorageService cloudStorageService, 
+            ILogger logger)
         {
             this.logger = logger;
             this.options = options;
-            this.containerClient = containerClient;
+            this.cloudStorageService = cloudStorageService;
 
             if(!Directory.Exists(options.LocalPath))
             {
@@ -74,23 +74,7 @@ namespace AzureSync
         {
             await Task.Delay(options.UploadDelay);
 
-            try
-            {
-                var blobClient = containerClient.GetBlobClient($"{options.RemotePath}/{e.Name}");
-                using (var uploadStream = File.OpenRead(e.FullPath))
-                {
-                    await blobClient.UploadAsync(uploadStream, true);
-                }
-
-                if(logger.IsEnabled(LogLevel.Debug))
-                {
-                    logger.LogDebug($"Uploaded {e.FullPath} to {options.RemotePath}");
-                }
-            }
-            catch (Exception ex)
-            {
-                logger.LogError($"Error uploading {e.FullPath} to {options.RemotePath}", ex);
-            }
+            await cloudStorageService.UploadAsync(e.FullPath, $"{options.RemotePath}/{e.Name}");
         }
 
 
