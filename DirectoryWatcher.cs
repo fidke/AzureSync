@@ -22,6 +22,11 @@ namespace AzureSync
             this.options = options;
             this.containerClient = containerClient;
 
+            if(!Directory.Exists(options.LocalPath))
+            {
+                Directory.CreateDirectory(options.LocalPath);
+            }
+
             watcher = new FileSystemWatcher();
             watcher.Path = options.LocalPath;
             watcher.NotifyFilter = NotifyFilters.LastAccess
