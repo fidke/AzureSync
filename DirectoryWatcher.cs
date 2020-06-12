@@ -71,6 +71,17 @@ namespace AzureSync
                 return;
             }
 
+            // ignore directories
+            if(Directory.Exists(e.FullPath))
+            {
+                if(logger.IsEnabled(LogLevel.Debug))
+                {
+                    logger.LogDebug($"Ignoring {e.FullPath} because it's a directory");
+                }
+
+                return;
+            }
+
             ThreadPool.QueueUserWorkItem(Upload, e, true);
         }
 
